@@ -69,15 +69,21 @@ server.post("/courses", async (request, reply) => {
 	return reply.status(201).send({ courseId: result[0].id });
 });
 
-server.delete("/courses/:id", (request, reply) => {
+server.delete("/courses/:id", async (request, reply) => {
 	const { id } = request.params as { id: string };
 
-	const course = courses.find((item) => item.id === id);
-	courses = courses.filter((item) => item.id !== id);
+	const condition = eq(coursesTable.id, id);
 
-	if (!course) {
+	const results = await db
+		.select({ id: coursesTable.id })
+		.from(coursesTable)
+		.where(condition);
+
+	if (results.length === 0) {
 		return reply.status(404).send();
 	}
+
+	await db.delete(coursesTable).where(condition);
 
 	return reply.status(204).send();
 });

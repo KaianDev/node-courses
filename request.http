@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ###
 
-DELETE  http://localhost:3333/courses/3
+DELETE  http://localhost:3333/courses/e139900d-da66-4b3a-8aa1-17e0c379e24e
 
 ###
 
