@@ -51,16 +51,22 @@ server.get("/courses/:id", async (request, reply) => {
 	return reply.status(404).send();
 });
 
-server.post("/courses", (request, reply) => {
-	const { title } = request.body as { title?: string };
+server.post("/courses", async (request, reply) => {
+	const { title, description } = request.body as {
+		title?: string;
+		description?: string;
+	};
 
 	if (!title) {
 		return reply.status(400).send({ message: "Title is required" });
 	}
 
-	const courseId = crypto.randomUUID();
-	courses.push({ id: courseId, title });
-	reply.status(201).send({ courseId });
+	const result = await db
+		.insert(coursesTable)
+		.values({ title, description })
+		.returning();
+
+	return reply.status(201).send({ courseId: result[0].id });
 });
 
 server.delete("/courses/:id", (request, reply) => {

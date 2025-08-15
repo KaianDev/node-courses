@@ -6,7 +6,7 @@ GET http://localhost:3333/courses
 
 ###
 
-GET http://localhost:3333/courses/6b3c0fdc-50fc-4ba1-86c6-8a6542138e32
+GET http://localhost:3333/courses/080a9bf3-13d2-48b4-9d0a-355ea851d95c
 
 ###
 
@@ -14,7 +14,8 @@ POST http://localhost:3333/courses
 Content-Type: application/json
 
 {
-  "title":"Curso de Spring Boot"
+  "title":"Curso de React",
+  "description":"Curso de react 19"
 }
 
 ###
