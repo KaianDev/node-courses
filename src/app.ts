@@ -1,5 +1,6 @@
-import crypto from "node:crypto";
 import fastify from "fastify";
+import { db } from "./database/client.ts";
+import { coursesTable } from "./database/schema.ts";
 
 const server = fastify({
 	logger: {
@@ -23,8 +24,10 @@ server.get("/health", () => {
 	return { ok: true };
 });
 
-server.get("/courses", () => {
-	return { courses };
+server.get("/courses", async () => {
+	const results = await db.select().from(coursesTable);
+
+	return { courses: results };
 });
 
 server.get("/courses/:id", (request, reply) => {
