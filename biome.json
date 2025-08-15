@@ -15,7 +15,13 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "noMagicNumbers": "off"
+      },
+      "suspicious": {
+        "noConsole": "off"
+      }
     }
   },
   "javascript": {

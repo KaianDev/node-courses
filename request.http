@@ -1,1 +1,31 @@
 GET http://localhost:3333/health
+
+###
+
+GET http://localhost:3333/courses
+
+###
+
+GET http://localhost:3333/courses/2
+
+###
+
+POST http://localhost:3333/courses
+Content-Type: application/json
+
+{
+  "title":"Curso de Spring Boot"
+}
+
+###
+
+DELETE  http://localhost:3333/courses/3
+
+###
+
+PATCH http://localhost:3333/courses/2
+Content-Type: application/json
+
+{
+  "title":"Curso de React e Next.js"
+}

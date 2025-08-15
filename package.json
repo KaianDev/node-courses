@@ -1,9 +1,9 @@
 {
   "name": "courses",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "dev": "node --env-file .env --watch src/server.ts"
+    "dev": "node --env-file .env --watch --no-warnings src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@types/node": "^24.2.1",
+    "typescript": "^5.9.2",
     "ultracite": "5.1.5"
   }
 }
