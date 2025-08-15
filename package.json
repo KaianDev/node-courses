@@ -3,19 +3,25 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "dev": "node --env-file .env --watch --no-warnings src/server.ts"
+    "dev": "node --env-file .env --watch --no-warnings src/server.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "drizzle-orm": "^0.44.4",
     "fastify": "^5.5.0",
+    "pg": "^8.16.3",
     "pino-pretty": "^13.1.1"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@types/node": "^24.2.1",
+    "drizzle-kit": "^0.31.4",
     "typescript": "^5.9.2",
     "ultracite": "5.1.5"
   }
