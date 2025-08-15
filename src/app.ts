@@ -15,12 +15,6 @@ const server = fastify({
 	},
 });
 
-let courses = [
-	{ id: "1", title: "Curso de Node.js" },
-	{ id: "2", title: "Curso de React" },
-	{ id: "3", title: "Curso de React Native" },
-];
-
 server.get("/health", () => {
 	return { ok: true };
 });
@@ -88,25 +82,25 @@ server.delete("/courses/:id", async (request, reply) => {
 	return reply.status(204).send();
 });
 
-server.patch("/courses/:id", (request, reply) => {
+server.patch("/courses/:id", async (request, reply) => {
 	const { id } = request.params as { id: string };
-	const { title } = request.body as { title?: string };
+	const { title, description } = request.body as {
+		title?: string;
+		description?: string;
+	};
 
-	const hasCourseWithId = courses.find((item) => item.id === id);
+	const results = await db
+		.update(coursesTable)
+		.set({
+			title,
+			description,
+		})
+		.where(eq(coursesTable.id, id))
+		.returning();
 
-	if (!hasCourseWithId) {
+	if (results.length === 0) {
 		return reply.status(404).send();
 	}
-
-	courses = courses.map((item) => {
-		if (item.id === id && title) {
-			return {
-				...item,
-				title,
-			};
-		}
-		return item;
-	});
 
 	return reply.status(204).send();
 });

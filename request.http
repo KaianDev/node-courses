@@ -14,8 +14,8 @@ POST http://localhost:3333/courses
 Content-Type: application/json
 
 {
-  "title":"Curso de React",
-  "description":"Curso de react 19"
+  "title":"Curso de Java",
+  "description":"Curso de Java 22"
 }
 
 ###
@@ -24,7 +24,7 @@ DELETE  http://localhost:3333/courses/e139900d-da66-4b3a-8aa1-17e0c379e24e
 
 ###
 
-PATCH http://localhost:3333/courses/2
+PATCH http://localhost:3333/courses/080a9bf3-13d2-48b4-9d0a-355ea851d959
 Content-Type: application/json
 
 {
