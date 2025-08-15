@@ -1,7 +1,17 @@
 import crypto from "node:crypto";
 import fastify from "fastify";
 
-const server = fastify();
+const server = fastify({
+	logger: {
+		transport: {
+			target: "pino-pretty",
+			options: {
+				translateTime: "HH:MM:ss Z",
+				ignore: "pip,hostname",
+			},
+		},
+	},
+});
 
 let courses = [
 	{ id: "1", title: "Curso de Node.js" },
