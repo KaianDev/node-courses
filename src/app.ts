@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import fastify from "fastify";
 import { db } from "./database/client.ts";
 import { coursesTable } from "./database/schema.ts";
@@ -25,20 +26,29 @@ server.get("/health", () => {
 });
 
 server.get("/courses", async () => {
-	const results = await db.select().from(coursesTable);
+	const results = await db
+		.select({
+			id: coursesTable.id,
+			title: coursesTable.title,
+		})
+		.from(coursesTable);
 
 	return { courses: results };
 });
 
-server.get("/courses/:id", (request, reply) => {
+server.get("/courses/:id", async (request, reply) => {
 	const { id } = request.params as { id: string };
-	const course = courses.find((i) => i.id === id);
 
-	if (!course) {
-		return reply.status(404).send();
+	const results = await db
+		.select()
+		.from(coursesTable)
+		.where(eq(coursesTable.id, id));
+
+	if (results.length > 0) {
+		return { course: results[0] };
 	}
 
-	return { course };
+	return reply.status(404).send();
 });
 
 server.post("/courses", (request, reply) => {
