@@ -10,5 +10,7 @@ export const coursesTable = pgTable("courses", {
 	id: uuid().primaryKey().defaultRandom(),
 	title: text().notNull(),
 	description: text(),
-	createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.notNull()
+		.defaultNow(),
 });

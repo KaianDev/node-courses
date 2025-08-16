@@ -15,6 +15,13 @@
       "when": 1755278528034,
       "tag": "0001_bitter_karnak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755312712067,
+      "tag": "0002_lethal_hedge_knight",
+      "breakpoints": true
     }
   ]
 }
