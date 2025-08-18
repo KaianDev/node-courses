@@ -19,6 +19,7 @@ describe("registerStudentRoute", () => {
 		expect(response.status).toEqual(201);
 		expect(response.body).toEqual({
 			studentId: expect.any(String),
+			token: expect.any(String),
 		});
 	});
 });
