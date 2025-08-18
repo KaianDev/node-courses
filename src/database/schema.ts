@@ -1,4 +1,10 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	text,
+	timestamp,
+	uniqueIndex,
+	uuid,
+} from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
 	id: uuid().primaryKey().defaultRandom(),
@@ -15,15 +21,20 @@ export const coursesTable = pgTable("courses", {
 		.defaultNow(),
 });
 
-export const enrollmentsTable = pgTable("enrollments", {
-	id: uuid().primaryKey().defaultRandom(),
-	userId: uuid()
-		.notNull()
-		.references(() => usersTable.id),
-	courseId: uuid()
-		.notNull()
-		.references(() => coursesTable.id),
-	createdAt: timestamp("created_at", { withTimezone: true })
-		.notNull()
-		.defaultNow(),
-});
+export const enrollmentsTable = pgTable(
+	"enrollments",
+	{
+		id: uuid().primaryKey().defaultRandom(),
+		userId: uuid()
+			.notNull()
+			.references(() => usersTable.id),
+		courseId: uuid()
+			.notNull()
+			.references(() => coursesTable.id),
+		createdAt: timestamp("created_at", { withTimezone: true })
+			.notNull()
+			.defaultNow(),
+	},
+	// Garante que um aluno não seja matriculado mais de uma vez no mesmo curso
+	(table) => [uniqueIndex().on(table.userId, table.courseId)]
+);
