@@ -1,8 +1,9 @@
-import { asc, ilike, or } from "drizzle-orm";
+/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <explanation> */
+import { asc, count, eq, ilike, or } from "drizzle-orm";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../database/client.ts";
-import { coursesTable } from "../database/schema.ts";
+import { coursesTable, enrollmentsTable } from "../database/schema.ts";
 
 export const getCoursesRoute: FastifyPluginCallbackZod = (server) => {
 	server.get(
@@ -24,6 +25,7 @@ export const getCoursesRoute: FastifyPluginCallbackZod = (server) => {
 							z.object({
 								id: z.uuid(),
 								title: z.string(),
+								enrollments: z.number(),
 							})
 						),
 						metadata: z.object({
@@ -50,12 +52,19 @@ export const getCoursesRoute: FastifyPluginCallbackZod = (server) => {
 					.select({
 						id: coursesTable.id,
 						title: coursesTable.title,
+						enrollments: count(enrollmentsTable.id),
 					})
 					.from(coursesTable)
+					.leftJoin(
+						enrollmentsTable,
+						eq(enrollmentsTable.courseId, coursesTable.id)
+					)
 					.orderBy(asc(coursesTable[sort]))
 					.limit(limit)
 					.offset((page - 1) * limit)
-					.where(condition),
+					.where(condition)
+					.groupBy(coursesTable.id),
+
 				db.$count(coursesTable, condition),
 			]);
 			const pages = Math.ceil(total / limit);
