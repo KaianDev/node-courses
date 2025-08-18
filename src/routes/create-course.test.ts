@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
-import { server } from "../app";
+import { server } from "../app.ts";
 
 describe("createCourseRoute", () => {
 	test("Create a course", async () => {
