@@ -6,7 +6,7 @@ import { coursesTable, enrollmentsTable, usersTable } from "./schema.ts";
 export const seed = async () => {
 	console.log("Start seed");
 
-	const passwordHash = await hash("1234");
+	const passwordHash = await hash("123456");
 	const userResults = await db
 		.insert(usersTable)
 		.values([
