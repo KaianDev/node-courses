@@ -1,0 +1,1 @@
+CREATE DATABASE courses_test 

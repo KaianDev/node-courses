@@ -21,6 +21,9 @@
       },
       "suspicious": {
         "noConsole": "off"
+      },
+      "complexity": {
+        "noExcessiveLinesPerFunction": "off"
       }
     }
   },
