@@ -27,6 +27,7 @@
     "zod": "^4.0.17"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^3.2.4",
     "@biomejs/biome": "2.2.0",
     "@faker-js/faker": "^9.9.0",
     "@types/node": "^24.2.1",
