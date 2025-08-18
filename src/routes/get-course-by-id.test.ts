@@ -19,4 +19,13 @@ describe("getCourseByIdRoute", () => {
 			},
 		});
 	});
+
+	test("should return 404 for non existing courses", async () => {
+		await server.ready();
+		const response = await request(server.server).get(
+			"/courses/4eabdc5b-084f-4956-9e1d-8d47eb522cd7"
+		);
+
+		expect(response.status).toEqual(404);
+	});
 });

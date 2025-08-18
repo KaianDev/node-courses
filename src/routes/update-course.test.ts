@@ -28,4 +28,17 @@ describe("updateCourseRoute", () => {
 		expect(courseAfterUpdate.title).toEqual(newTitle);
 		expect(courseAfterUpdate.description).toEqual(newDescription);
 	});
+
+	test("should return 404 for non existing courses", async () => {
+		await server.ready();
+		const response = await request(server.server)
+			.patch("/courses/4eabdc5b-084f-4956-9e1d-8d47eb522cd7")
+			.set("Content-Type", "application/json")
+			.send({
+				title: faker.lorem.words(4),
+				description: faker.lorem.words(6),
+			});
+
+		expect(response.status).toEqual(404);
+	});
 });
