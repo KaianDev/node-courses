@@ -1,12 +1,13 @@
 import { randomUUID } from "node:crypto";
 import request from "supertest";
 import { describe, expect, test } from "vitest";
+
 import { server } from "../app.ts";
 import { makeCourse } from "../tests/factories/make-course.ts";
 import { makeEnrollment } from "../tests/factories/make-enrollment.ts";
 
 describe("getCoursesRoute", () => {
-	test("should get courses successfully", async () => {
+	test("should get courses successfully with 'search' query params", async () => {
 		await server.ready();
 
 		const titleId = randomUUID();
@@ -28,5 +29,26 @@ describe("getCoursesRoute", () => {
 				limit: 10,
 			},
 		});
+	});
+
+	test("should get courses successfully with 'sort' query params", async () => {
+		await server.ready();
+
+		const timestamp = Date.now();
+
+		const [courseC, courseB, courseA] = await Promise.all([
+			makeCourse(`Curso-test-C-${timestamp}`),
+			makeCourse(`Curso-test-B-${timestamp}`),
+			makeCourse(`Curso-test-A-${timestamp}`),
+		]);
+
+		const response = await request(server.server).get(
+			`/courses?search=${timestamp}&limit=3&sort=title`
+		);
+
+		expect(response.status).toEqual(200);
+		expect(response.body.courses[0].title).toEqual(courseA.title);
+		expect(response.body.courses[1].title).toEqual(courseB.title);
+		expect(response.body.courses[2].title).toEqual(courseC.title);
 	});
 });
