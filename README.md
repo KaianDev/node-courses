@@ -39,7 +39,7 @@ Uma API REST moderna e robusta para gerenciamento de cursos, construída com Fas
 1. **Clone o repositório**
 
    ```bash
-   git clone <url-do-repositorio>
+   git clone https://github.com/KaianDev/node-courses.git
    cd node-courses
    ```
 
