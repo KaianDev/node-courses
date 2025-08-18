@@ -6,7 +6,8 @@
     "dev": "node --env-file .env --watch --no-warnings src/server.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "node --env-file .env src/database/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
+    "@faker-js/faker": "^9.9.0",
     "@types/node": "^24.2.1",
     "@types/pg": "^8.15.5",
     "drizzle-kit": "^0.31.4",

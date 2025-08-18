@@ -14,3 +14,16 @@ export const coursesTable = pgTable("courses", {
 		.notNull()
 		.defaultNow(),
 });
+
+export const enrollmentsTable = pgTable("enrollments", {
+	id: uuid().primaryKey().defaultRandom(),
+	userId: uuid()
+		.notNull()
+		.references(() => usersTable.id),
+	courseId: uuid()
+		.notNull()
+		.references(() => coursesTable.id),
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.notNull()
+		.defaultNow(),
+});
