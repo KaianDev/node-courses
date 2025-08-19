@@ -2,10 +2,10 @@ import { randomUUID } from "node:crypto";
 import { fakerPT_BR as faker } from "@faker-js/faker";
 import { hash } from "argon2";
 
+import { server } from "../../app.ts";
 import { db } from "../../database/client.ts";
 import { usersTable } from "../../database/schema.ts";
 import type { UserRoles } from "../../types/roles.ts";
-import { createJWTToken } from "../../utils/create-jwt-token.ts";
 
 export const makeUser = async (role?: UserRoles) => {
 	const passwordBeforeHash = randomUUID();
@@ -25,7 +25,7 @@ export const makeUser = async (role?: UserRoles) => {
 export const makeAuthenticatedUser = async (role: UserRoles) => {
 	const { user } = await makeUser(role);
 
-	const token = createJWTToken(user);
+	const token = server.jwt.sign({ role: user.role, sub: user.id });
 
 	return { token, user };
 };

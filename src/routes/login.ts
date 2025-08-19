@@ -5,7 +5,6 @@ import z from "zod";
 
 import { db } from "../database/client.ts";
 import { usersTable } from "../database/schema.ts";
-import { createJWTToken } from "../utils/create-jwt-token.ts";
 
 export const loginRoute: FastifyPluginCallbackZod = (server) => {
 	server.post(
@@ -53,7 +52,10 @@ export const loginRoute: FastifyPluginCallbackZod = (server) => {
 				return reply.status(400).send({ error: "Invalid credentials" });
 			}
 
-			const token = createJWTToken(user);
+			const token = await reply.jwtSign({
+				role: user.role,
+				sub: user.id,
+			});
 
 			return reply.status(200).send({ token });
 		}

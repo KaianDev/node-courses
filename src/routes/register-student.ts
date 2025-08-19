@@ -5,7 +5,6 @@ import z from "zod";
 
 import { db } from "../database/client.ts";
 import { usersTable } from "../database/schema.ts";
-import { createJWTToken } from "../utils/create-jwt-token.ts";
 
 export const registerStudentRoute: FastifyPluginCallbackZod = (server) => {
 	server.post(
@@ -56,7 +55,10 @@ export const registerStudentRoute: FastifyPluginCallbackZod = (server) => {
 
 			const user = result[0];
 
-			const token = createJWTToken(user);
+			const token = await reply.jwtSign({
+				role: user.role,
+				sub: user.id,
+			});
 
 			return reply.status(201).send({ studentId: user.id, token });
 		}

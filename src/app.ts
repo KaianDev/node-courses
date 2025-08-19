@@ -1,3 +1,4 @@
+import fastifyJWT from "@fastify/jwt";
 import { fastifySwagger } from "@fastify/swagger";
 import scalarFastifyApiReference from "@scalar/fastify-api-reference";
 import fastify from "fastify";
@@ -29,6 +30,13 @@ const server = fastify({
 		},
 	},
 }).withTypeProvider<ZodTypeProvider>();
+
+server.register(fastifyJWT, {
+	secret: env.JWT_SECRET,
+	verify: {
+		extractToken: (request) => request.headers.authorization as string,
+	},
+});
 
 if (env.NODE_ENV === "development") {
 	server.register(fastifySwagger, {
