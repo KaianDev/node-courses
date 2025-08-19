@@ -11,10 +11,10 @@ describe("getCoursesRoute", () => {
 	test("should get courses successfully with 'search' query params", async () => {
 		await server.ready();
 
-		const { token } = await makeAuthenticatedUser("student");
+		const { token, user } = await makeAuthenticatedUser("student");
 		const titleId = randomUUID();
 		const course = await makeCourse(titleId);
-		await makeEnrollment(course.id);
+		await makeEnrollment(course.id, user.id);
 
 		const response = await request(server.server)
 			.get(`/courses?search=${titleId}&limit=10`)
