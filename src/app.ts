@@ -1,4 +1,5 @@
 import fastifyJWT from "@fastify/jwt";
+import fastifyOAuth2 from "@fastify/oauth2";
 import { fastifySwagger } from "@fastify/swagger";
 import scalarFastifyApiReference from "@scalar/fastify-api-reference";
 import fastify from "fastify";
@@ -18,6 +19,7 @@ import { getCoursesRoute } from "./routes/get-courses.ts";
 import { getEnrollmentsRoute } from "./routes/get-enrollments.ts";
 import { healthRoute } from "./routes/health.ts";
 import { loginRoute } from "./routes/login.ts";
+import { loginGoogleRoute } from "./routes/login-google.ts";
 import { registerStudentRoute } from "./routes/register-student.ts";
 import { updateCourseRoute } from "./routes/update-course.ts";
 
@@ -38,6 +40,20 @@ server.register(fastifyJWT, {
 	verify: {
 		extractToken: (request) => request.headers.authorization as string,
 	},
+});
+
+server.register(fastifyOAuth2, {
+	name: "googleOAuth2",
+	scope: ["profile", "email"],
+	credentials: {
+		client: {
+			id: env.GOOGLE_CLIENT_ID,
+			secret: env.GOOGLE_CLIENT_SECRET,
+		},
+		auth: fastifyOAuth2.GOOGLE_CONFIGURATION,
+	},
+	startRedirectPath: "/login/google",
+	callbackUri: () => `${env.BASE_URL}/login/google/callback`,
 });
 
 if (env.NODE_ENV === "development") {
@@ -69,5 +85,6 @@ server.register(loginRoute);
 server.register(registerStudentRoute);
 server.register(createEnrollment);
 server.register(getEnrollmentsRoute);
+server.register(loginGoogleRoute);
 
 export { server };

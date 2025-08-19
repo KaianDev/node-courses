@@ -3,7 +3,7 @@ GET http://localhost:3333/health
 ###
 
 GET http://localhost:3333/courses?limit=10
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciIsInN1YiI6IjZiZmQ5M2YwLTBiYjgtNGEzMC1hYjc5LTAxODY1NTM2ZTUzMCIsImlhdCI6MTc1NTYyMjUzN30.7sWbXbGENDEVtivPQ9dHfr3RHGc1zbVPWktq53q3-Fs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3R1ZGVudCIsInN1YiI6ImFiOWE3OWYxLThkZjctNGM4Yi05ZDc3LTg1OGExNzhmOGQ5MSIsImlhdCI6MTc1NTYzNDMxOH0.PSDLJWQi6alFR103Gsx3CW8QfW6EHojQ0EdOBWLA888
 
 ###
 
@@ -54,3 +54,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciIsInN1
 {
   "courseId":"a9efc399-1739-4238-a442-89f6318a27d8"
 }
+
+###
+
+GET http://localhost:3333/login/google
