@@ -15,6 +15,7 @@ import { createEnrollment } from "./routes/create-enrollment.ts";
 import { deleteCourseRoute } from "./routes/delete-course.ts";
 import { getCourseByIdRoute } from "./routes/get-course-by-id.ts";
 import { getCoursesRoute } from "./routes/get-courses.ts";
+import { getEnrollmentsRoute } from "./routes/get-enrollments.ts";
 import { healthRoute } from "./routes/health.ts";
 import { loginRoute } from "./routes/login.ts";
 import { registerStudentRoute } from "./routes/register-student.ts";
@@ -67,5 +68,6 @@ server.register(updateCourseRoute);
 server.register(loginRoute);
 server.register(registerStudentRoute);
 server.register(createEnrollment);
+server.register(getEnrollmentsRoute);
 
 export { server };

@@ -2,7 +2,8 @@ GET http://localhost:3333/health
 
 ###
 
-GET http://localhost:3333/courses?limit=10&search=victor
+GET http://localhost:3333/courses?limit=10
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciIsInN1YiI6IjZiZmQ5M2YwLTBiYjgtNGEzMC1hYjc5LTAxODY1NTM2ZTUzMCIsImlhdCI6MTc1NTYyMjUzN30.7sWbXbGENDEVtivPQ9dHfr3RHGc1zbVPWktq53q3-Fs
 
 ###
 
@@ -11,9 +12,10 @@ GET http://localhost:3333/courses/6bfcf93e-eba0-4fde-8c0c-c355457bb8bc
 
 POST http://localhost:3333/courses
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciIsInN1YiI6IjZiZmQ5M2YwLTBiYjgtNGEzMC1hYjc5LTAxODY1NTM2ZTUzMCIsImlhdCI6MTc1NTYyMjUzN30.7sWbXbGENDEVtivPQ9dHfr3RHGc1zbVPWktq53q3-Fs
 
 {
-  "title":"Curso de Angular"
+  "title":"Curso de Node.Js"
 }
 
 ###
@@ -22,9 +24,33 @@ DELETE  http://localhost:3333/courses/cada1b29-de02-4f92-afc1-e2511c1f2a97
 
 ###
 
-PATCH http://localhost:3333/courses/6bfcf93e-eba0-4fde-8c0c-c355457bb8bc
+PATCH http://localhost:3333/courses/6e4116bb-6017-4f27-ad4a-7bc687c801d4
 Content-Type: application/json
 
 {
-  "description":"Curso de spring boot ensinado pelo professor João Victor"
+  "title":"Curso de Python"
+}
+###
+
+POST http://localhost:3333/sessions
+Content-Type: application/json
+
+{
+  "email":"kaian@dev.io",
+  "password":"123456"
+}
+
+###
+
+GET http://localhost:3333/enrollments
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciIsInN1YiI6IjZiZmQ5M2YwLTBiYjgtNGEzMC1hYjc5LTAxODY1NTM2ZTUzMCIsImlhdCI6MTc1NTYyMjUzN30.7sWbXbGENDEVtivPQ9dHfr3RHGc1zbVPWktq53q3-Fs
+
+###
+
+POST http://localhost:3333/enrollments
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibWFuYWdlciIsInN1YiI6IjZiZmQ5M2YwLTBiYjgtNGEzMC1hYjc5LTAxODY1NTM2ZTUzMCIsImlhdCI6MTc1NTYyMjUzN30.7sWbXbGENDEVtivPQ9dHfr3RHGc1zbVPWktq53q3-Fs
+
+{
+  "courseId":"a9efc399-1739-4238-a442-89f6318a27d8"
 }
