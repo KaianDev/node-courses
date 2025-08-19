@@ -4,8 +4,9 @@ import { hash } from "argon2";
 
 import { db } from "../../database/client.ts";
 import { usersTable } from "../../database/schema.ts";
+import type { UserRoles } from "../../types/roles.ts";
 
-export const makeUser = async (role?: "student" | "manager") => {
+export const makeUser = async (role?: UserRoles) => {
 	const passwordBeforeHash = randomUUID();
 	const result = await db
 		.insert(usersTable)

@@ -3,11 +3,13 @@ import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../database/client.ts";
 import { coursesTable } from "../database/schema.ts";
+import { checkRequestJWT } from "./hooks/check-request-jwt.ts";
 
 export const getCourseByIdRoute: FastifyPluginCallbackZod = (server) => {
 	server.get(
 		"/courses/:id",
 		{
+			preHandler: [checkRequestJWT],
 			schema: {
 				tags: ["courses"],
 				summary: "Get course by course id",

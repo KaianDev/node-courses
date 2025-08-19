@@ -3,12 +3,15 @@ import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../database/client.ts";
 import { coursesTable } from "../database/schema.ts";
+import { checkRequestJWT } from "./hooks/check-request-jwt.ts";
+import { checkUserRole } from "./hooks/check-user-role.ts";
 
 export const deleteCourseRoute: FastifyPluginCallbackZod = (server) => {
 	server.delete(
 		"/courses/:id",
 		{
 			schema: {
+				preHandler: [checkRequestJWT, checkUserRole("manager")],
 				tags: ["courses"],
 				summary: "Delete a course",
 				operationId: "delete_course",
