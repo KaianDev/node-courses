@@ -1,12 +1,11 @@
 import { verify } from "argon2";
 import { eq } from "drizzle-orm";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
-import jwt from "jsonwebtoken";
 import z from "zod";
 
 import { db } from "../database/client.ts";
 import { usersTable } from "../database/schema.ts";
-import { env } from "../env.ts";
+import { createJWTToken } from "../utils/create-jwt-token.ts";
 
 export const loginRoute: FastifyPluginCallbackZod = (server) => {
 	server.post(
@@ -54,13 +53,7 @@ export const loginRoute: FastifyPluginCallbackZod = (server) => {
 				return reply.status(400).send({ error: "Invalid credentials" });
 			}
 
-			const token = jwt.sign(
-				{
-					sub: user.id,
-					role: user.role,
-				},
-				env.JWT_SECRET
-			);
+			const token = createJWTToken(user);
 
 			return reply.status(200).send({ token });
 		}

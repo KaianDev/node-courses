@@ -1,12 +1,11 @@
 import { hash } from "argon2";
 import { eq } from "drizzle-orm";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
-import jwt from "jsonwebtoken";
 import z from "zod";
 
 import { db } from "../database/client.ts";
 import { usersTable } from "../database/schema.ts";
-import { env } from "../env.ts";
+import { createJWTToken } from "../utils/create-jwt-token.ts";
 
 export const registerStudentRoute: FastifyPluginCallbackZod = (server) => {
 	server.post(
@@ -55,14 +54,11 @@ export const registerStudentRoute: FastifyPluginCallbackZod = (server) => {
 				.values({ email, name, password: passwordHash, role: "student" })
 				.returning();
 
-			const student = result[0];
+			const user = result[0];
 
-			const token = jwt.sign(
-				{ sub: student.id, role: student.role },
-				env.JWT_SECRET
-			);
+			const token = createJWTToken(user);
 
-			return reply.status(201).send({ studentId: student.id, token });
+			return reply.status(201).send({ studentId: user.id, token });
 		}
 	);
 };

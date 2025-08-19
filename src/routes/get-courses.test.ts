@@ -5,18 +5,20 @@ import { describe, expect, test } from "vitest";
 import { server } from "../app.ts";
 import { makeCourse } from "../tests/factories/make-course.ts";
 import { makeEnrollment } from "../tests/factories/make-enrollment.ts";
+import { makeAuthenticatedUser } from "../tests/factories/make-user.ts";
 
 describe("getCoursesRoute", () => {
 	test("should get courses successfully with 'search' query params", async () => {
 		await server.ready();
 
+		const { token } = await makeAuthenticatedUser("student");
 		const titleId = randomUUID();
 		const course = await makeCourse(titleId);
 		await makeEnrollment(course.id);
 
-		const response = await request(server.server).get(
-			`/courses?search=${titleId}&limit=10`
-		);
+		const response = await request(server.server)
+			.get(`/courses?search=${titleId}&limit=10`)
+			.set("Authorization", token);
 
 		expect(response.status).toEqual(200);
 
@@ -35,6 +37,7 @@ describe("getCoursesRoute", () => {
 		await server.ready();
 
 		const timestamp = Date.now();
+		const { token } = await makeAuthenticatedUser("student");
 
 		const [courseC, courseB, courseA] = await Promise.all([
 			makeCourse(`Curso-test-C-${timestamp}`),
@@ -42,9 +45,9 @@ describe("getCoursesRoute", () => {
 			makeCourse(`Curso-test-A-${timestamp}`),
 		]);
 
-		const response = await request(server.server).get(
-			`/courses?search=${timestamp}&limit=3&sort=title`
-		);
+		const response = await request(server.server)
+			.get(`/courses?search=${timestamp}&limit=3&sort=title`)
+			.set("Authorization", token);
 
 		expect(response.status).toEqual(200);
 		expect(response.body.courses[0].title).toEqual(courseA.title);
