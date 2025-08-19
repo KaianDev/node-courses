@@ -19,7 +19,7 @@ export const usersTable = pgTable("users", {
 
 export const coursesTable = pgTable("courses", {
 	id: uuid().primaryKey().defaultRandom(),
-	title: text().notNull(),
+	title: text().notNull().unique(),
 	description: text(),
 	createdAt: timestamp("created_at", { withTimezone: true })
 		.notNull()

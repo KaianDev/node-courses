@@ -25,12 +25,30 @@ export const updateCourseRoute: FastifyPluginCallbackZod = (server) => {
 				response: {
 					204: z.null().describe("Course successfully updated"),
 					404: z.null().describe("Course not found"),
+					409: z
+						.object({
+							error: z.string(),
+						})
+						.describe("Já existe curso com esse título"),
 				},
 			},
 		},
 		async (request, reply) => {
 			const { id } = request.params;
 			const { title, description } = request.body;
+
+			if (title) {
+				const courses = await db
+					.select({ id: coursesTable.id })
+					.from(coursesTable)
+					.where(eq(coursesTable.title, title));
+
+				if (courses.length > 0) {
+					return reply
+						.status(409)
+						.send({ error: "The course title is already exist" });
+				}
+			}
 
 			const results = await db
 				.update(coursesTable)

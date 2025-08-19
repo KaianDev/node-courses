@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../database/client.ts";
@@ -24,11 +25,27 @@ export const createCourseRoute: FastifyPluginCallbackZod = (server) => {
 							courseId: z.uuid(),
 						})
 						.describe("Curso criado com sucesso"),
+					409: z
+						.object({
+							error: z.string(),
+						})
+						.describe("Já existe curso com esse título"),
 				},
 			},
 		},
 		async (request, reply) => {
 			const { title, description } = request.body;
+
+			const courses = await db
+				.select({ id: coursesTable.id })
+				.from(coursesTable)
+				.where(eq(coursesTable.title, title));
+
+			if (courses.length > 0) {
+				return reply
+					.status(409)
+					.send({ error: "The course title is already exist" });
+			}
 
 			const result = await db
 				.insert(coursesTable)
