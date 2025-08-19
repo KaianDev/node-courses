@@ -18,7 +18,7 @@ describe("getCoursesRoute", () => {
 
 		const response = await request(server.server)
 			.get(`/courses?search=${titleId}&limit=10`)
-			.set("Authorization", token);
+			.set("Authorization", `Bearer ${token}`);
 
 		expect(response.status).toEqual(200);
 
@@ -47,7 +47,7 @@ describe("getCoursesRoute", () => {
 
 		const response = await request(server.server)
 			.get(`/courses?search=${timestamp}&limit=3&sort=title`)
-			.set("Authorization", token);
+			.set("Authorization", `Bearer ${token}`);
 
 		expect(response.status).toEqual(200);
 		expect(response.body.courses[0].title).toEqual(courseA.title);

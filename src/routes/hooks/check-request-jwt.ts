@@ -12,6 +12,12 @@ export const checkRequestJWT = async (
 	reply: FastifyReply
 ) => {
 	try {
+		const authHeader = request.headers.authorization;
+
+		if (!authHeader?.startsWith("Bearer ")) {
+			return reply.status(401).send();
+		}
+
 		const payload = await request.jwtVerify<JWTPayload>();
 		request.user = payload;
 	} catch {

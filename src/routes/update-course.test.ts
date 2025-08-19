@@ -20,7 +20,7 @@ describe("updateCourseRoute", () => {
 		const response = await request(server.server)
 			.patch(`/courses/${course.id}`)
 			.set("Content-Type", "application/json")
-			.set("Authorization", token)
+			.set("Authorization", `Bearer ${token}`)
 			.send({
 				title: newTitle,
 				description: newDescription,
@@ -35,9 +35,11 @@ describe("updateCourseRoute", () => {
 
 	test("should return 404 for non existing courses", async () => {
 		await server.ready();
+		const { token } = await makeAuthenticatedUser("manager");
 		const response = await request(server.server)
 			.patch("/courses/4eabdc5b-084f-4956-9e1d-8d47eb522cd7")
 			.set("Content-Type", "application/json")
+			.set("Authorization", `Bearer ${token}`)
 			.send({
 				title: faker.lorem.words(4),
 				description: faker.lorem.words(6),

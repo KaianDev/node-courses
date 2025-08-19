@@ -14,6 +14,7 @@ export const getCourseByIdRoute: FastifyPluginCallbackZod = (server) => {
 				tags: ["courses"],
 				summary: "Get course by course id",
 				operationId: "get_course_by_id",
+				security: [{ bearerAuth: [] }],
 				params: z.object({
 					id: z.uuid(),
 				}),

@@ -24,7 +24,7 @@ describe("getEnrollmentsRoute", () => {
 
 		const response = await request(server.server)
 			.get("/enrollments?limit=2")
-			.set("Authorization", token);
+			.set("Authorization", `Bearer ${token}`);
 
 		expect(response.status).toEqual(200);
 		expect(response.body).toEqual({

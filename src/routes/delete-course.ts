@@ -10,11 +10,12 @@ export const deleteCourseRoute: FastifyPluginCallbackZod = (server) => {
 	server.delete(
 		"/courses/:id",
 		{
+			preHandler: [checkRequestJWT, checkUserRole("manager")],
 			schema: {
-				preHandler: [checkRequestJWT, checkUserRole("manager")],
 				tags: ["courses"],
 				summary: "Delete a course",
 				operationId: "delete_course",
+				security: [{ bearerAuth: [] }],
 				params: z.object({
 					id: z.uuid(),
 				}),

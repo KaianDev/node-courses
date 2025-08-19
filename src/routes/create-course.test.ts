@@ -13,7 +13,7 @@ describe("createCourseRoute", () => {
 		const response = await request(server.server)
 			.post("/courses")
 			.set("Content-Type", "application/json")
-			.set("Authorization", token)
+			.set("Authorization", `Bearer ${token}`)
 			.send({
 				title: faker.lorem.words(4),
 			});

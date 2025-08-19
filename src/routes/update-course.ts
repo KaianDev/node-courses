@@ -10,9 +10,10 @@ export const updateCourseRoute: FastifyPluginCallbackZod = (server) => {
 	server.patch(
 		"/courses/:id",
 		{
+			preHandler: [checkRequestJWT, checkUserRole("manager")],
 			schema: {
+				security: [{ bearerAuth: [] }],
 				tags: ["courses"],
-				preHandler: [checkRequestJWT, checkUserRole("manager")],
 				summary: "Update a course",
 				operationId: "update_course",
 				params: z.object({

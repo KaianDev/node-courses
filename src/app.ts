@@ -38,7 +38,12 @@ const server = fastify({
 server.register(fastifyJWT, {
 	secret: env.JWT_SECRET,
 	verify: {
-		extractToken: (request) => request.headers.authorization as string,
+		extractToken: (request) => {
+			const authHeader = request.headers.authorization;
+			if (authHeader?.startsWith("Bearer ")) {
+				return authHeader.substring(7);
+			}
+		},
 	},
 });
 
@@ -62,6 +67,16 @@ if (env.NODE_ENV === "development") {
 			info: {
 				title: "Courses",
 				version: "1.0.0",
+			},
+			components: {
+				securitySchemes: {
+					bearerAuth: {
+						type: "http",
+						scheme: "bearer",
+						bearerFormat: "JWT",
+						description: "JWT obtido através do login",
+					},
+				},
 			},
 		},
 		transform: jsonSchemaTransform,

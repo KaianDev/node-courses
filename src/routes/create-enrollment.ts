@@ -16,6 +16,7 @@ export const createEnrollment: FastifyPluginCallbackZod = (server) => {
 				tags: ["enrollments"],
 				summary: "Create a enrollment",
 				operationId: "create_enrollment",
+				security: [{ bearerAuth: [] }],
 				body: z.object({
 					courseId: z.uuid(),
 				}),

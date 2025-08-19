@@ -14,7 +14,7 @@ describe("deleteCourseRoute", () => {
 		const course = await makeCourse();
 		const response = await request(server.server)
 			.delete(`/courses/${course.id}`)
-			.set("Authorization", token);
+			.set("Authorization", `Bearer ${token}`);
 
 		const courseAfterDeletion = await getCourse(course.id);
 
@@ -24,9 +24,11 @@ describe("deleteCourseRoute", () => {
 
 	test("should return 404 for non existing courses", async () => {
 		await server.ready();
-		const response = await request(server.server).delete(
-			"/courses/4eabdc5b-084f-4956-9e1d-8d47eb522cd7"
-		);
+		const { token } = await makeAuthenticatedUser("manager");
+
+		const response = await request(server.server)
+			.delete("/courses/4eabdc5b-084f-4956-9e1d-8d47eb522cd7")
+			.set("Authorization", `Bearer ${token}`);
 
 		expect(response.status).toEqual(404);
 	});

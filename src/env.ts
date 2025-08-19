@@ -6,7 +6,7 @@ const envSchema = z.object({
 	JWT_SECRET: z.string(),
 	GOOGLE_CLIENT_ID: z.string(),
 	GOOGLE_CLIENT_SECRET: z.string(),
-	BASE_URL: z.url(),
+	BASE_URL: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

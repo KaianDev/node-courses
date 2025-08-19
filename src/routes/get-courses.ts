@@ -9,11 +9,12 @@ export const getCoursesRoute: FastifyPluginCallbackZod = (server) => {
 	server.get(
 		"/courses",
 		{
+			preHandler: [checkRequestJWT],
 			schema: {
-				preHandler: [checkRequestJWT],
 				tags: ["courses"],
 				summary: "List courses",
 				operationId: "get_courses",
+				security: [{ bearerAuth: [] }],
 				querystring: z.object({
 					search: z.string().optional(),
 					sort: z.enum(["title", "createdAt"]).optional().default("createdAt"),

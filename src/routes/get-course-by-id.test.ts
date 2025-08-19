@@ -13,7 +13,7 @@ describe("getCourseByIdRoute", () => {
 		const course = await makeCourse();
 		const response = await request(server.server)
 			.get(`/courses/${course.id}`)
-			.set("Authorization", token);
+			.set("Authorization", `Bearer ${token}`);
 
 		expect(response.status).toEqual(200);
 		expect(response.body).toEqual({
@@ -32,7 +32,7 @@ describe("getCourseByIdRoute", () => {
 		const { token } = await makeAuthenticatedUser("student");
 		const response = await request(server.server)
 			.get("/courses/4eabdc5b-084f-4956-9e1d-8d47eb522cd7")
-			.set("Authorization", token);
+			.set("Authorization", `Bearer ${token}`);
 
 		expect(response.status).toEqual(404);
 	});

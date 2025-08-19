@@ -15,6 +15,7 @@ export const createCourseRoute: FastifyPluginCallbackZod = (server) => {
 				tags: ["courses"],
 				summary: "Create a course",
 				operationId: "create_course",
+				security: [{ bearerAuth: [] }],
 				body: z.object({
 					title: z.string().min(1),
 					description: z.string().optional(),

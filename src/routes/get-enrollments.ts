@@ -17,6 +17,10 @@ export const getEnrollmentsRoute: FastifyPluginCallbackZod = (server) => {
 		{
 			preHandler: [checkRequestJWT, checkUserRole("manager")],
 			schema: {
+				security: [{ bearerAuth: [] }],
+				tags: ["enrollments"],
+				summary: "List enrollments",
+				operationId: "get_enrollments",
 				querystring: z.object({
 					sort: z
 						.enum(["createdAt", "courseTitle", "studentName"])

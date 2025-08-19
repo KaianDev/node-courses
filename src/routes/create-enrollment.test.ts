@@ -16,7 +16,7 @@ describe("createEnrollment", () => {
 		const response = await request(server.server)
 			.post("/enrollments")
 			.set("Content-Type", "application/json")
-			.set("Authorization", token)
+			.set("Authorization", `Bearer ${token}`)
 			.send({
 				courseId: id,
 			});
@@ -34,7 +34,7 @@ describe("createEnrollment", () => {
 		const response = await request(server.server)
 			.post("/enrollments")
 			.set("Content-Type", "application/json")
-			.set("Authorization", token)
+			.set("Authorization", `Bearer ${token}`)
 			.send({
 				courseId: randomUUID(),
 			});
@@ -51,7 +51,7 @@ describe("createEnrollment", () => {
 		const response = await request(server.server)
 			.post("/enrollments")
 			.set("Content-Type", "application/json")
-			.set("Authorization", token)
+			.set("Authorization", `Bearer ${token}`)
 			.send({
 				courseId: course.id,
 			});
